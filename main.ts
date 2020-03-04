@@ -38,9 +38,6 @@ namespace myTiles {
 . . . . . . . . . . . . . . . . 
 `
 }
-function walls () {
-	
-}
 function Enemy1 () {
     ememy = sprites.create(img`
 . . . . . . . . . . . . . . . . 
@@ -211,6 +208,9 @@ function coins2 () {
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 `, SpriteKind.Player)
+}
+function walls () {
+	
 }
 function player2 () {
     player1 = sprites.create(img`
