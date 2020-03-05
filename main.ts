@@ -57,26 +57,51 @@ namespace myTiles {
 . . . . . . . . . . . . . . . . 
 `
 }
+function coins2 () {
+    coins = sprites.create(img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . d d d d . . . . . . . 
+. . . . d 5 5 5 5 d . . . . . . 
+. . . . d 5 5 5 5 d . . . . . . 
+. . . . d 5 b b 5 d . . . . . . 
+. . . . d 5 1 1 5 d . . . . . . 
+. . . . d 5 1 b 5 d . . . . . . 
+. . . . d 5 1 b 5 d . . . . . . 
+. . . . d 5 5 5 5 d . . . . . . 
+. . . . . d d d d . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`, SpriteKind.Player)
+    coins.x = Math.randomRange(5, 60)
+}
+function jump1 () {
+    player1.vy = -4 * jump
+}
 function Enemy1 () {
     ememy = sprites.create(img`
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
-. . . d d d d d d . . . . . . . 
-. . . d d d d 1 f . . . . . . . 
-. . . d d d d d b . . . . . . . 
-. . . d d d d d d . . . . . . . 
-. . . d d d d d d . . . . . . . 
-. . . 2 2 2 2 2 2 . . . . . . . 
-. . . 2 2 2 2 2 2 . . . . . . . 
-. . . 2 2 2 2 2 2 d d d d d d d 
-. . . 2 2 2 2 2 2 . . . . . . . 
-. . . f f f f f f . . . . . . . 
-f f f f . . f f f . . . . . . . 
-f f f f . . f f f . . . . . . . 
-f f f . . . f f f f . . . . . . 
-f f . . . . f f f f . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . 5 5 . . . . . . . . 
+. . . . . . 5 5 . . . . . . . . 
 `, SpriteKind.Projectile)
     ememy.setPosition(34, 73)
+    ememy.follow(player1, 50)
 }
 function set_score () {
     info.setScore(1)
@@ -208,26 +233,6 @@ function Background () {
 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
 `)
 }
-function coins2 () {
-    coins = sprites.create(img`
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . d d d d . . . . . . . 
-. . . . d 5 5 5 5 d . . . . . . 
-. . . . d 5 5 5 5 d . . . . . . 
-. . . . d 5 b b 5 d . . . . . . 
-. . . . d 5 1 1 5 d . . . . . . 
-. . . . d 5 1 b 5 d . . . . . . 
-. . . . d 5 1 b 5 d . . . . . . 
-. . . . d 5 5 5 5 d . . . . . . 
-. . . . . d d d d . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-`, SpriteKind.Player)
-}
 function walls () {
     tiles.setTilemap(tiles.createTilemap(
             hex`1000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000`,
@@ -253,6 +258,9 @@ function walls () {
             TileScale.Sixteen
         ))
 }
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    jump1()
+})
 function player2 () {
     player1 = sprites.create(img`
 . . . . . . . . . . . . . 
@@ -273,13 +281,21 @@ d . . . 8 8 8 8 8 . . . d
 . . . . e . . . e . . . . 
 `, SpriteKind.Player)
     player1.setPosition(76, 73)
-    controller.moveSprite(player1)
+    controller.moveSprite(player1, 100, 0)
+    player1.setFlag(SpriteFlag.StayInScreen, true)
 }
+let ememy: Sprite = null
 let player1: Sprite = null
 let coins: Sprite = null
-let ememy: Sprite = null
+let jump = 0
 Background()
 player2()
 Enemy1()
-coins2()
 set_score()
+coins2()
+jump = 30
+game.onUpdate(function () {
+    if (ememy.overlapsWith(player1)) {
+        game.over(false)
+    }
+})
