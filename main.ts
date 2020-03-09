@@ -57,30 +57,6 @@ namespace myTiles {
 . . . . . . . . . . . . . . . . 
 `
 }
-function coins2 () {
-    coins = sprites.create(img`
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . d d d d . . . . . . . 
-. . . . d 5 5 5 5 d . . . . . . 
-. . . . d 5 5 5 5 d . . . . . . 
-. . . . d 5 b b 5 d . . . . . . 
-. . . . d 5 1 1 5 d . . . . . . 
-. . . . d 5 1 b 5 d . . . . . . 
-. . . . d 5 1 b 5 d . . . . . . 
-. . . . d 5 5 5 5 d . . . . . . 
-. . . . . d d d d . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-`, SpriteKind.Player)
-    coins.x = Math.randomRange(5, 60)
-}
-function jump1 () {
-    player1.vy = -4 * jump
-}
 function Enemy1 () {
     ememy = sprites.create(img`
 . . . . . . . . . . . . . . . . 
@@ -101,13 +77,13 @@ function Enemy1 () {
 . . . . . . 5 5 . . . . . . . . 
 `, SpriteKind.Projectile)
     ememy.setPosition(34, 73)
-    ememy.follow(player1, 50)
+    ememy.follow(player1, 10)
 }
-function set_score () {
-    info.setScore(1)
-}
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
+    coins.destroy()
+})
 function sound () {
-    music.playMelody("C5 A B C5 B A B C5 ", 73)
+    music.playMelody("C5 B A C5 B A B C5 ", 73)
 }
 function Background () {
     scene.setBackgroundImage(img`
@@ -233,34 +209,6 @@ function Background () {
 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
 `)
 }
-function walls () {
-    tiles.setTilemap(tiles.createTilemap(
-            hex`1000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000`,
-            img`
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-`,
-            [myTiles.tile0,myTiles.tile1,myTiles.tile2],
-            TileScale.Sixteen
-        ))
-}
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    jump1()
-})
 function player2 () {
     player1 = sprites.create(img`
 . . . . . . . . . . . . . 
@@ -281,21 +229,45 @@ d . . . 8 8 8 8 8 . . . d
 . . . . e . . . e . . . . 
 `, SpriteKind.Player)
     player1.setPosition(76, 73)
-    controller.moveSprite(player1, 100, 0)
+    controller.moveSprite(player1, 100, 50)
     player1.setFlag(SpriteFlag.StayInScreen, true)
 }
-let ememy: Sprite = null
-let player1: Sprite = null
+function life () {
+    info.setLife(3)
+}
 let coins: Sprite = null
-let jump = 0
+let player1: Sprite = null
+let ememy: Sprite = null
 Background()
 player2()
 Enemy1()
-set_score()
-coins2()
-jump = 30
+game.showLongText("collect 30 coins to win", DialogLayout.Bottom)
+life()
 game.onUpdate(function () {
     if (ememy.overlapsWith(player1)) {
-        game.over(false)
+    	
     }
+})
+game.onUpdateInterval(1000, function () {
+    coins = sprites.create(img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . d d d d . . . . . . . 
+. . . . d 5 5 5 5 d . . . . . . 
+. . . . d 5 5 5 5 d . . . . . . 
+. . . . d 5 b b 5 d . . . . . . 
+. . . . d 5 1 1 5 d . . . . . . 
+. . . . d 5 1 b 5 d . . . . . . 
+. . . . d 5 1 b 5 d . . . . . . 
+. . . . d 5 5 5 5 d . . . . . . 
+. . . . . d d d d . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`, SpriteKind.Food)
+    coins.x = Math.randomRange(8, 180)
+    coins.y = Math.randomRange(8, 180)
+    info.changeScoreBy(1)
 })
