@@ -57,6 +57,10 @@ namespace myTiles {
 . . . . . . . . . . . . . . . . 
 `
 }
+sprites.onOverlap(SpriteKind.Food, SpriteKind.Player, function (sprite, otherSprite) {
+    info.changeScoreBy(1)
+    coins.destroy(effects.spray, 5000)
+})
 function Enemy1 () {
     ememy = sprites.create(img`
 . . . . . . . . . . . . . . . . 
@@ -79,9 +83,6 @@ function Enemy1 () {
     ememy.setPosition(34, 73)
     ememy.follow(player1, 10)
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
-    coins.destroy()
-})
 function sound () {
     music.playMelody("C5 B A C5 B A B C5 ", 73)
 }
@@ -235,9 +236,9 @@ d . . . 8 8 8 8 8 . . . d
 function life () {
     info.setLife(3)
 }
-let coins: Sprite = null
 let player1: Sprite = null
 let ememy: Sprite = null
+let coins: Sprite = null
 Background()
 player2()
 Enemy1()
@@ -245,6 +246,9 @@ game.showLongText("collect 30 coins to win", DialogLayout.Bottom)
 life()
 game.onUpdate(function () {
     if (ememy.overlapsWith(player1)) {
+    	
+    }
+    if (player1.overlapsWith(coins)) {
     	
     }
 })
@@ -267,7 +271,6 @@ game.onUpdateInterval(1000, function () {
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 `, SpriteKind.Food)
-    coins.x = Math.randomRange(8, 180)
     coins.y = Math.randomRange(8, 180)
-    info.changeScoreBy(1)
+    coins.x = Math.randomRange(8, 180)
 })
